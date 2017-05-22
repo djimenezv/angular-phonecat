@@ -1,3 +1,5 @@
+var jquery = require("../bower_components/jquery/dist/jquery");
+
 'use strict';
 
 // Register `phoneDetail` component, along with its associated controller and template
