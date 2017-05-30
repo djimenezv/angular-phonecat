@@ -1,12 +1,12 @@
-var jquery = require("../bower_components/jquery/dist/jquery");
-
 'use strict';
+
+var template = require('./phone-detail.template.html');
 
 // Register `phoneDetail` component, along with its associated controller and template
 angular.
   module('phoneDetail').
   component('phoneDetail', {
-    templateUrl: 'phone-detail/phone-detail.template.html',
+    template: template,
     controller: ['$routeParams', 'Phone',
       function PhoneDetailController($routeParams, Phone) {
         var self = this;

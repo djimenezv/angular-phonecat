@@ -63,11 +63,179 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 17);
+/******/ 	return __webpack_require__(__webpack_require__.s = 18);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+module.exports = "var angular=window.angular,ngModule;\ntry {ngModule=angular.module([\"ng\"])}\ncatch(e){ngModule=angular.module(\"ng\",[])}\nvar v1=\"<div class=\\\"container-fluid\\\">\\n<div class=\\\"row\\\">\\n<div class=\\\"col-md-2\\\">\\n<p>\\nSearch:\\n<input ng-model=\\\"$ctrl.query\\\"/>\\n</p>\\n<p>\\nSort by:\\n<select ng-model=\\\"$ctrl.orderProp\\\">\\n<option value=\\\"name\\\">Alphabetical</option>\\n<option value=\\\"age\\\">Newest</option>\\n</select>\\n</p>\\n</div>\\n<div class=\\\"col-md-10\\\">\\n<ul class=\\\"phones\\\">\\n<li ng-repeat=\\\"phone in $ctrl.phones | filter:$ctrl.query | orderBy:$ctrl.orderProp\\\" class=\\\"thumbnail phone-list-item\\\">\\n<a href=\\\"#!/phones/{{phone.id}}\\\" class=\\\"thumb\\\">\\n<img ng-src=\\\"{{phone.imageUrl}}\\\" alt=\\\"{{phone.name}}\\\"/>\\n</a>\\n<a href=\\\"#!/phones/{{phone.id}}\\\">{{phone.name}}</a>\\n<p>{{phone.snippet}}</p>\\n</li>\\n</ul>\\n</div>\\n</div>\\n</div>\\n\";\nvar id1=\"app/phone-list/phone-list.template.html\";\nvar inj=angular.element(window.document).injector();\nif(inj){inj.get(\"$templateCache\").put(id1,v1);}\nelse{ngModule.run([\"$templateCache\",function(c){c.put(id1,v1)}]);}\nmodule.exports=v1;";
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+angular.
+  module('phonecatApp').
+  animation('.phone', function phoneAnimationFactory() {
+    return {
+      addClass: animateIn,
+      removeClass: animateOut
+    };
+
+    function animateIn(element, className, done) {
+      if (className !== 'selected') return;
+
+      element.css({
+        display: 'block',
+        position: 'absolute',
+        top: 500,
+        left: 0
+      }).animate({
+        top: 0
+      }, done);
+
+      return function animateInEnd(wasCanceled) {
+        if (wasCanceled) element.stop();
+      };
+    }
+
+    function animateOut(element, className, done) {
+      if (className !== 'selected') return;
+
+      element.css({
+        position: 'absolute',
+        top: 0,
+        left: 0
+      }).animate({
+        top: -500
+      }, done);
+
+      return function animateOutEnd(wasCanceled) {
+        if (wasCanceled) element.stop();
+      };
+    }
+  });
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+angular.
+  module('phonecatApp').
+  config(['$locationProvider' ,'$routeProvider',
+    function config($locationProvider, $routeProvider) {
+      $locationProvider.hashPrefix('!');
+
+      $routeProvider.
+        when('/phones', {
+          template: '<phone-list></phone-list>'
+        }).
+        when('/phones/:phoneId', {
+          template: '<phone-detail></phone-detail>'
+        }).
+        otherwise('/phones');
+    }
+  ]);
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// Define the `phonecatApp` module
+angular.module('phonecatApp', [
+    'ngAnimate',
+    'ngRoute',
+    'core',
+    'phoneDetail',
+    'phoneList'
+]);
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(15);
+__webpack_require__(16);
+__webpack_require__(14);
+__webpack_require__(17);
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(20);
+__webpack_require__(19);
+__webpack_require__(27);
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(0);
+__webpack_require__(22);
+__webpack_require__(21);
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(23);
+module.exports = 'ngAnimate';
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(24);
+module.exports = 'ngResource';
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(25);
+module.exports = 'ngRoute';
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(26);
+module.exports = angular;
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -9888,23 +10056,168 @@ return jQuery;
 
 
 /***/ }),
-/* 1 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(14);
-__webpack_require__(18);
-__webpack_require__(21);
-__webpack_require__(11);
-__webpack_require__(10);
-__webpack_require__(9);
-
+angular.
+  module('core').
+  filter('checkmark', function() {
+    return function(input) {
+      return input ? '\u2713' : '\u2718';
+    };
+  });
 
 
 /***/ }),
-/* 2 */
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// Define the `core` module
+angular.module('core', ['core.phone']);
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// Define the `core.phone` module
+angular.module('core.phone', ['ngResource']);
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+angular.
+  module('core.phone').
+  factory('Phone', ['$resource',
+    function($resource) {
+      return $resource('phones/:phoneId.json', {}, {
+        query: {
+          method: 'GET',
+          params: {phoneId: 'phones'},
+          isArray: true
+        }
+      });
+    }
+  ]);
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Require for bower_components
+var $ = __webpack_require__(13);
+window.$ = $;
+window.jQuery = $;
+
+__webpack_require__(10);
+__webpack_require__(7);
+__webpack_require__(8);
+__webpack_require__(9);
+
+// Require for angular components
+__webpack_require__(4);
+__webpack_require__(5);
+__webpack_require__(6);
+__webpack_require__(3);
+__webpack_require__(2);
+__webpack_require__(1);
+
+// css
+__webpack_require__(11);
+__webpack_require__(12);
+//require("./bootstrap/dist/css/bootstrap.css");
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// Register `phoneDetail` component, along with its associated controller and template
+angular.
+  module('phoneDetail').
+  component('phoneDetail', {
+    templateUrl: 'phone-detail/phone-detail.template.html',
+    controller: ['$routeParams', 'Phone',
+      function PhoneDetailController($routeParams, Phone) {
+        var self = this;
+        self.phone = Phone.get({phoneId: $routeParams.phoneId}, function(phone) {
+          self.setImage(phone.images[0]);
+        });
+
+        self.setImage = function setImage(imageUrl) {
+          self.mainImageUrl = imageUrl;
+        };
+      }
+    ]
+  });
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// Define the `phoneDetail` module
+angular.module('phoneDetail', [
+  'ngRoute',
+  'core.phone'
+]);
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var template = __webpack_require__(0);
+'use strict';
+
+// Register `phoneList` component, along with its associated controller and template
+angular.
+  module('phoneList').
+  component('phoneList', {
+    templateUrl: template,
+    controller: ['Phone',
+      function PhoneListController(Phone) {
+        this.phones = Phone.query();
+        this.orderProp = 'age';
+      }
+    ]
+  });
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// Define the `phoneList` module
+angular.module('phoneList', ['core.phone']);
+
+
+/***/ }),
+/* 23 */
 /***/ (function(module, exports) {
 
 /**
@@ -14062,7 +14375,7 @@ angular.module('ngAnimate', [], function initAngularHelpers() {
 
 
 /***/ }),
-/* 3 */
+/* 24 */
 /***/ (function(module, exports) {
 
 /**
@@ -14934,7 +15247,7 @@ angular.module('ngResource', ['ng']).
 
 
 /***/ }),
-/* 4 */
+/* 25 */
 /***/ (function(module, exports) {
 
 /**
@@ -16011,7 +16324,7 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 
 /***/ }),
-/* 5 */
+/* 26 */
 /***/ (function(module, exports) {
 
 /**
@@ -48637,313 +48950,10 @@ $provide.value("$locale", {
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ }),
-/* 6 */
+/* 27 */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var jquery = __webpack_require__(0);
-
-'use strict';
-
-angular.
-  module('phonecatApp').
-  animation('.phone', function phoneAnimationFactory() {
-    return {
-      addClass: animateIn,
-      removeClass: animateOut
-    };
-
-    function animateIn(element, className, done) {
-      if (className !== 'selected') return;
-
-      element.css({
-        display: 'block',
-        position: 'absolute',
-        top: 500,
-        left: 0
-      }).animate({
-        top: 0
-      }, done);
-
-      return function animateInEnd(wasCanceled) {
-        if (wasCanceled) element.stop();
-      };
-    }
-
-    function animateOut(element, className, done) {
-      if (className !== 'selected') return;
-
-      element.css({
-        position: 'absolute',
-        top: 0,
-        left: 0
-      }).animate({
-        top: -500
-      }, done);
-
-      return function animateOutEnd(wasCanceled) {
-        if (wasCanceled) element.stop();
-      };
-    }
-  });
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-angular.
-  module('phonecatApp').
-  config(['$locationProvider' ,'$routeProvider',
-    function config($locationProvider, $routeProvider) {
-      $locationProvider.hashPrefix('!');
-
-      $routeProvider.
-        when('/phones', {
-          template: '<phone-list></phone-list>'
-        }).
-        when('/phones/:phoneId', {
-          template: '<phone-detail></phone-detail>'
-        }).
-        otherwise('/phones');
-    }
-  ]);
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// Define the `phonecatApp` module
-angular.module('phonecatApp', [
-    'ngAnimate',
-    'ngRoute',
-    'core',
-    'phoneDetail',
-    'phoneList'
-]);
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-angular.
-  module('core').
-  filter('checkmark', function() {
-    return function(input) {
-      return input ? '\u2713' : '\u2718';
-    };
-  });
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// Define the `core` module
-angular.module('core', ['core.phone']);
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(13);
-__webpack_require__(15);
-__webpack_require__(12);
-__webpack_require__(16);
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// Define the `core.phone` module
-angular.module('core.phone', ['ngResource']);
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-angular.
-  module('core.phone').
-  factory('Phone', ['$resource',
-    function($resource) {
-      return $resource('phones/:phoneId.json', {}, {
-        query: {
-          method: 'GET',
-          params: {phoneId: 'phones'},
-          isArray: true
-        }
-      });
-    }
-  ]);
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-
-// Require for bower_components
-var $ = __webpack_require__(0);
-window.$ = $;
-window.jQuery = $;
-__webpack_require__(5);
-
-__webpack_require__(2);
-__webpack_require__(3);
-__webpack_require__(4);
-
-// Require for angular components
-__webpack_require__(1);
-
-
-// css
-__webpack_require__(6);
-__webpack_require__(7);
-__webpack_require__(8);
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(20);
-__webpack_require__(19);
-__webpack_require__(24);
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var jquery = __webpack_require__(0);
-
-'use strict';
-
-// Register `phoneDetail` component, along with its associated controller and template
-angular.
-  module('phoneDetail').
-  component('phoneDetail', {
-    templateUrl: 'phone-detail/phone-detail.template.html',
-    controller: ['$routeParams', 'Phone',
-      function PhoneDetailController($routeParams, Phone) {
-        var self = this;
-        self.phone = Phone.get({phoneId: $routeParams.phoneId}, function(phone) {
-          self.setImage(phone.images[0]);
-        });
-
-        self.setImage = function setImage(imageUrl) {
-          self.mainImageUrl = imageUrl;
-        };
-      }
-    ]
-  });
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// Define the `phoneDetail` module
-angular.module('phoneDetail', [
-  'ngRoute',
-  'core.phone'
-]);
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(23);
-__webpack_require__(22);
-__webpack_require__(25);
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// Register `phoneList` component, along with its associated controller and template
-angular.
-  module('phoneList').
-  component('phoneList', {
-    templateUrl: 'phone-list/phone-list.template.html',
-    controller: ['Phone',
-      function PhoneListController(Phone) {
-        this.phones = Phone.query();
-        this.orderProp = 'age';
-      }
-    ]
-  });
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// Define the `phoneList` module
-angular.module('phoneList', ['core.phone']);
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"phone-images\">\n  <img ng-src=\"{{img}}\" class=\"phone\"\n      ng-class=\"{selected: img === $ctrl.mainImageUrl}\"\n      ng-repeat=\"img in $ctrl.phone.images\" />\n</div>\n\n<h1>{{$ctrl.phone.name}}</h1>\n\n<p>{{$ctrl.phone.description}}</p>\n\n<ul class=\"phone-thumbs\">\n  <li ng-repeat=\"img in $ctrl.phone.images\">\n    <img ng-src=\"{{img}}\" ng-click=\"$ctrl.setImage(img)\" />\n  </li>\n</ul>\n\n<ul class=\"specs\">\n  <li>\n    <span>Availability and Networks</span>\n    <dl>\n      <dt>Availability</dt>\n      <dd ng-repeat=\"availability in $ctrl.phone.availability\">{{availability}}</dd>\n    </dl>\n  </li>\n  <li>\n    <span>Battery</span>\n    <dl>\n      <dt>Type</dt>\n      <dd>{{$ctrl.phone.battery.type}}</dd>\n      <dt>Talk Time</dt>\n      <dd>{{$ctrl.phone.battery.talkTime}}</dd>\n      <dt>Standby time (max)</dt>\n      <dd>{{$ctrl.phone.battery.standbyTime}}</dd>\n    </dl>\n  </li>\n  <li>\n    <span>Storage and Memory</span>\n    <dl>\n      <dt>RAM</dt>\n      <dd>{{$ctrl.phone.storage.ram}}</dd>\n      <dt>Internal Storage</dt>\n      <dd>{{$ctrl.phone.storage.flash}}</dd>\n    </dl>\n  </li>\n  <li>\n    <span>Connectivity</span>\n    <dl>\n      <dt>Network Support</dt>\n      <dd>{{$ctrl.phone.connectivity.cell}}</dd>\n      <dt>WiFi</dt>\n      <dd>{{$ctrl.phone.connectivity.wifi}}</dd>\n      <dt>Bluetooth</dt>\n      <dd>{{$ctrl.phone.connectivity.bluetooth}}</dd>\n      <dt>Infrared</dt>\n      <dd>{{$ctrl.phone.connectivity.infrared | checkmark}}</dd>\n      <dt>GPS</dt>\n      <dd>{{$ctrl.phone.connectivity.gps | checkmark}}</dd>\n    </dl>\n  </li>\n  <li>\n    <span>Android</span>\n    <dl>\n      <dt>OS Version</dt>\n      <dd>{{$ctrl.phone.android.os}}</dd>\n      <dt>UI</dt>\n      <dd>{{$ctrl.phone.android.ui}}</dd>\n    </dl>\n  </li>\n  <li>\n    <span>Size and Weight</span>\n    <dl>\n      <dt>Dimensions</dt>\n      <dd ng-repeat=\"dim in $ctrl.phone.sizeAndWeight.dimensions\">{{dim}}</dd>\n      <dt>Weight</dt>\n      <dd>{{$ctrl.phone.sizeAndWeight.weight}}</dd>\n    </dl>\n  </li>\n  <li>\n    <span>Display</span>\n    <dl>\n      <dt>Screen size</dt>\n      <dd>{{$ctrl.phone.display.screenSize}}</dd>\n      <dt>Screen resolution</dt>\n      <dd>{{$ctrl.phone.display.screenResolution}}</dd>\n      <dt>Touch screen</dt>\n      <dd>{{$ctrl.phone.display.touchScreen | checkmark}}</dd>\n    </dl>\n  </li>\n  <li>\n    <span>Hardware</span>\n    <dl>\n      <dt>CPU</dt>\n      <dd>{{$ctrl.phone.hardware.cpu}}</dd>\n      <dt>USB</dt>\n      <dd>{{$ctrl.phone.hardware.usb}}</dd>\n      <dt>Audio / headphone jack</dt>\n      <dd>{{$ctrl.phone.hardware.audioJack}}</dd>\n      <dt>FM Radio</dt>\n      <dd>{{$ctrl.phone.hardware.fmRadio | checkmark}}</dd>\n      <dt>Accelerometer</dt>\n      <dd>{{$ctrl.phone.hardware.accelerometer | checkmark}}</dd>\n    </dl>\n  </li>\n  <li>\n    <span>Camera</span>\n    <dl>\n      <dt>Primary</dt>\n      <dd>{{$ctrl.phone.camera.primary}}</dd>\n      <dt>Features</dt>\n      <dd>{{$ctrl.phone.camera.features.join(', ')}}</dd>\n    </dl>\n  </li>\n  <li>\n    <span>Additional Features</span>\n    <dd>{{$ctrl.phone.additionalFeatures}}</dd>\n  </li>\n</ul>\n";
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"container-fluid\">\n  <div class=\"row\">\n    <div class=\"col-md-2\">\n      <!--Sidebar content-->\n\n      <p>\n        Search:\n        <input ng-model=\"$ctrl.query\" />\n      </p>\n\n      <p>\n        Sort by:\n        <select ng-model=\"$ctrl.orderProp\">\n          <option value=\"name\">Alphabetical</option>\n          <option value=\"age\">Newest</option>\n        </select>\n      </p>\n\n    </div>\n    <div class=\"col-md-10\">\n      <!--Body content-->\n\n      <ul class=\"phones\">\n        <li ng-repeat=\"phone in $ctrl.phones | filter:$ctrl.query | orderBy:$ctrl.orderProp\"\n            class=\"thumbnail phone-list-item\">\n          <a href=\"#!/phones/{{phone.id}}\" class=\"thumb\">\n            <img ng-src=\"{{phone.imageUrl}}\" alt=\"{{phone.name}}\" />\n          </a>\n          <a href=\"#!/phones/{{phone.id}}\">{{phone.name}}</a>\n          <p>{{phone.snippet}}</p>\n        </li>\n      </ul>\n\n    </div>\n  </div>\n</div>\n";
+module.exports = "var angular=window.angular,ngModule;\ntry {ngModule=angular.module([\"ng\"])}\ncatch(e){ngModule=angular.module(\"ng\",[])}\nvar v1=\"<div class=\\\"phone-images\\\">\\n<img ng-src=\\\"{{img}}\\\" class=\\\"phone\\\" ng-class=\\\"{selected: img === $ctrl.mainImageUrl}\\\" ng-repeat=\\\"img in $ctrl.phone.images\\\"/>\\n</div>\\n<h1>{{$ctrl.phone.name}}</h1>\\n<p>{{$ctrl.phone.description}}</p>\\n<ul class=\\\"phone-thumbs\\\">\\n<li ng-repeat=\\\"img in $ctrl.phone.images\\\">\\n<img ng-src=\\\"{{img}}\\\" ng-click=\\\"$ctrl.setImage(img)\\\"/>\\n</li>\\n</ul>\\n<ul class=\\\"specs\\\">\\n<li>\\n<span>Availability and Networks</span>\\n<dl>\\n<dt>Availability</dt>\\n<dd ng-repeat=\\\"availability in $ctrl.phone.availability\\\">{{availability}}</dd>\\n</dl>\\n</li>\\n<li>\\n<span>Battery</span>\\n<dl>\\n<dt>Type</dt>\\n<dd>{{$ctrl.phone.battery.type}}</dd>\\n<dt>Talk Time</dt>\\n<dd>{{$ctrl.phone.battery.talkTime}}</dd>\\n<dt>Standby time (max)</dt>\\n<dd>{{$ctrl.phone.battery.standbyTime}}</dd>\\n</dl>\\n</li>\\n<li>\\n<span>Storage and Memory</span>\\n<dl>\\n<dt>RAM</dt>\\n<dd>{{$ctrl.phone.storage.ram}}</dd>\\n<dt>Internal Storage</dt>\\n<dd>{{$ctrl.phone.storage.flash}}</dd>\\n</dl>\\n</li>\\n<li>\\n<span>Connectivity</span>\\n<dl>\\n<dt>Network Support</dt>\\n<dd>{{$ctrl.phone.connectivity.cell}}</dd>\\n<dt>WiFi</dt>\\n<dd>{{$ctrl.phone.connectivity.wifi}}</dd>\\n<dt>Bluetooth</dt>\\n<dd>{{$ctrl.phone.connectivity.bluetooth}}</dd>\\n<dt>Infrared</dt>\\n<dd>{{$ctrl.phone.connectivity.infrared | checkmark}}</dd>\\n<dt>GPS</dt>\\n<dd>{{$ctrl.phone.connectivity.gps | checkmark}}</dd>\\n</dl>\\n</li>\\n<li>\\n<span>Android</span>\\n<dl>\\n<dt>OS Version</dt>\\n<dd>{{$ctrl.phone.android.os}}</dd>\\n<dt>UI</dt>\\n<dd>{{$ctrl.phone.android.ui}}</dd>\\n</dl>\\n</li>\\n<li>\\n<span>Size and Weight</span>\\n<dl>\\n<dt>Dimensions</dt>\\n<dd ng-repeat=\\\"dim in $ctrl.phone.sizeAndWeight.dimensions\\\">{{dim}}</dd>\\n<dt>Weight</dt>\\n<dd>{{$ctrl.phone.sizeAndWeight.weight}}</dd>\\n</dl>\\n</li>\\n<li>\\n<span>Display</span>\\n<dl>\\n<dt>Screen size</dt>\\n<dd>{{$ctrl.phone.display.screenSize}}</dd>\\n<dt>Screen resolution</dt>\\n<dd>{{$ctrl.phone.display.screenResolution}}</dd>\\n<dt>Touch screen</dt>\\n<dd>{{$ctrl.phone.display.touchScreen | checkmark}}</dd>\\n</dl>\\n</li>\\n<li>\\n<span>Hardware</span>\\n<dl>\\n<dt>CPU</dt>\\n<dd>{{$ctrl.phone.hardware.cpu}}</dd>\\n<dt>USB</dt>\\n<dd>{{$ctrl.phone.hardware.usb}}</dd>\\n<dt>Audio / headphone jack</dt>\\n<dd>{{$ctrl.phone.hardware.audioJack}}</dd>\\n<dt>FM Radio</dt>\\n<dd>{{$ctrl.phone.hardware.fmRadio | checkmark}}</dd>\\n<dt>Accelerometer</dt>\\n<dd>{{$ctrl.phone.hardware.accelerometer | checkmark}}</dd>\\n</dl>\\n</li>\\n<li>\\n<span>Camera</span>\\n<dl>\\n<dt>Primary</dt>\\n<dd>{{$ctrl.phone.camera.primary}}</dd>\\n<dt>Features</dt>\\n<dd>{{$ctrl.phone.camera.features.join(', ')}}</dd>\\n</dl>\\n</li>\\n<li>\\n<span>Additional Features</span>\\n<dd>{{$ctrl.phone.additionalFeatures}}</dd>\\n</li>\\n</ul>\\n\";\nvar id1=\"app/phone-detail/phone-detail.template.html\";\nvar inj=angular.element(window.document).injector();\nif(inj){inj.get(\"$templateCache\").put(id1,v1);}\nelse{ngModule.run([\"$templateCache\",function(c){c.put(id1,v1)}]);}\nmodule.exports=v1;";
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=bundle.js.map

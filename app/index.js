@@ -1,20 +1,22 @@
-
-
 // Require for bower_components
-var $ = require("./bower_components/jquery/dist/jquery");
+var $ = require("jquery");
 window.$ = $;
 window.jQuery = $;
-require("./bower_components/angular/angular");
 
-require("./bower_components/angular-animate/angular-animate");
-require("./bower_components/angular-resource/angular-resource");
-require("./bower_components/angular-route/angular-route");
+require("angular");
+require("angular-animate");
+require("angular-resource");
+require("angular-route");
 
 // Require for angular components
-require('./app.js');
-
+require('./core/index');
+require('./phone-detail/index');
+require('./phone-list/index');
+require('./app.module');
+require('./app.config');
+require('./app.animations');
 
 // css
 require("./app.animations.css");
 require("./app.css");
-require("./bower_components/bootstrap/dist/css/bootstrap.css");
+//require("./bootstrap/dist/css/bootstrap.css");
