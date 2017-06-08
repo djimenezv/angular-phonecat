@@ -1,15 +1,20 @@
-var template = require('./phone-list.template.html');
+require('./phone-list.template.html');
+var {student} = require('../ts-components/index.ts');
+
 'use strict';
 
 // Register `phoneList` component, along with its associated controller and template
 angular.
   module('phoneList').
   component('phoneList', {
-    template: template,
+    templateUrl: 'phone-list/phone-list.template.html',
     controller: ['Phone',
       function PhoneListController(Phone) {
         this.phones = Phone.query();
         this.orderProp = 'age';
+        var studentObj = new student();
       }
     ]
   });
+
+var d = new student();

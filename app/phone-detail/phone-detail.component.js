@@ -6,7 +6,7 @@ var template = require('./phone-detail.template.html');
 angular.
   module('phoneDetail').
   component('phoneDetail', {
-    template: template,
+    templateUrl: 'phone-detail/phone-detail.template.html',
     controller: ['$routeParams', 'Phone',
       function PhoneDetailController($routeParams, Phone) {
         var self = this;
